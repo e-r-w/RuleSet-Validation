@@ -127,9 +127,12 @@ For two reasons:
     data-rule-set-validate="myForm"
     data-rule-set-validate-group="myPasswordGroup"
     />
+  <div data-ng-show="myForm.myPasswordGroup.$error.message">
+    {{ myForm.myPasswordGroup.$error.message }}
+  </div>
   ```
   
-  Group validation will be called whenever a blur event is fired on any of the inputs marked with `data-rule-set-validate-group`, so make sure you check for empty strings or undefined where relevant! Rules will be determined by the value of `data-rule-set-validate-group`
+  Group validation will be called whenever a blur event is fired on any of the inputs marked with `data-rule-set-validate-group`, so make sure you check for empty strings or undefined where relevant! Rules will be determined by the value of `data-rule-set-validate-group`.
   
 ### Asynchronous Validation
   Asynchronous validation utilizes `$q.defer()`. RuleSet validation will give your rules the defer object and your rules need to return its `promise`. RuleSet Validation expects you to `resolve` or `reject` with a plain boolean representing the validity. Resolving or rejecting does not change the validation outcome; for instance you can use `deferred.reject(true)`, and the input will be marked as valid, or `deferred.resolve(false)` and the input will be marked as invalid.
