@@ -121,13 +121,13 @@ For two reasons:
   <input 
     name="myPassword"
     data-ng-model="myPassword"
-    data-rule-set-validate
+    data-rule-set-validate="myForm"
     data-rule-set-validate-group="myPasswordGroup"
     />
   <input 
     name="myConfirmPassword"
     data-ng-model="myConfirmPassword"
-    data-rule-set-validate
+    data-rule-set-validate="myForm"
     data-rule-set-validate-group="myPasswordGroup"
     />
   ```
