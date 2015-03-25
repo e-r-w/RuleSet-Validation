@@ -49,7 +49,13 @@ For two reasons:
   Why you simply have to register a rule set and use the `data-rule-set-validate` directive on your form inputs! RuleSet Validation will use the `name` attribute
   on the form input tag to find validation rules you've registered as well as setting the native form validation state.
   
-  ### Configuring rule sets
+  Oh and don't forget to include the module in your app:
+  
+  ```javascript
+  angular.module('myApp', ['ruleSetValidation']);
+  ```
+  
+### Configuring rule sets
   
   Rule sets can be configured by injecting the `rsStore` object in your app.run/controller/service and using `rsStore.addRule(ruleSet)` to add the rule set to the store.
   
@@ -89,7 +95,7 @@ For two reasons:
   
   The rule storage will also not handle duplicates. If you register a rule already defined, the new one will take it's place.
 
-  ### Group rule sets
+### Group rule sets
 
   Group rule sets are defined similar to regular rule sets, except the validation function takes in an object that will feature the group items
   
@@ -113,7 +119,7 @@ For two reasons:
   
   Group validation will be called whenever a blur event is fired on any of the inputs marked with `data-rule-set-validate-group`, so make sure you check for empty strings or undefined where relevant!
   
-  ### Asynchronous Validation
+### Asynchronous Validation
   Asynchronous validation utilizes `$q.defer()`. RuleSet validation will give your rules the defer object and your rules need to return its `promise`. RuleSet Validation expects you to `resolve` or `reject` with a plain boolean representing the validity. Resolving or rejecting does not change the validation outcome; for instance you can use `deferred.reject(true)`, and the input will be marked as valid, or `deferred.resolve(false)` and the input will be marked as invalid.
   
   To use asynchronous validation, label your rule set object with `':async'`:
@@ -141,7 +147,7 @@ For two reasons:
   
   You can even mix group & asynchronous validation. Just tag your group rule with `':async'`!.
   
-  ### Form validation
+### Form validation
   
   If you need to validate the whole form using the rule set in js, simply call `rsFormValidator.validate(formCtrl, formCtrlName)`, where `formCtrl` is the form controller (i.e `scope.myForm`) and `formCtrlName` is the name you've given to the form's rule set (i.e `'myForm'`). RuleSet Validation will simply loop through all the rules you've associated with that form and call the validation.
   
