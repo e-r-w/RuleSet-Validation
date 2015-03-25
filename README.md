@@ -10,16 +10,13 @@ In the case that neither of these options suit you, go nuts with RuleSet Validat
 
 ## The skinny of it
 
-RuleSet validation is driven by native Angular form validation. $dirty/$pristine still apply, form.$valid still applies, but the validation functions
-are handled by RuleSet Validation using what you feed into the `rsStore`.
+RuleSet validation is driven by native Angular form validation. $dirty/$pristine still apply, form.$valid still applies, but the validation functions are handled by RuleSet Validation using what you feed into the `rsStore`.
 
 ## Why wrap native validation?
 
 For two reasons:
 
-  - As mentioned before, Angular 1.2.x's `ngModel` will update on input/keypress/whatever, with no native options to change that.
-  This means that validation runs with every key press the user entered, and it's terrible to receive a validation message before you've even finished
-  typing in the form field. RuleSet Validation runs only on blur (but I would consider making that configurable if wanted).
+  - As mentioned before, Angular 1.2.x's `ngModel` will update on input/keypress/whatever, with no native options to change that. This means that validation runs with every key press the user entered, and it's terrible to receive a validation message before you've even finished typing in the form field. RuleSet Validation runs only on blur (but I would consider making that configurable if wanted).
 
   - Angular validation does not correlate specific errors to error messages, meaning you have to do something like this:
 
