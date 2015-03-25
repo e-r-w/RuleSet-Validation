@@ -21,10 +21,13 @@ angular.module('ruleSetValidation', [])
         link: function(scope, element, attrs, ctrl) {
           var model = attrs.name;
           var form = attrs.ruleSetValidate;
-          var group = attrs.ruleSetValidateGroup;
+          var groups = attrs.ruleSetValidateGroups.split(',');
           element.bind('blur', function() {
             ctrl.$dirty = true;
-            rsGroupValidator.validate(ctrl, model, group, this.value, form);
+            for(var i = 0; i < groups.length; i++){
+              var group = groups[i];
+              rsGroupValidator.validate(ctrl, model, group, this.value, form);
+            }
             scope.$digest();
           });
         },
