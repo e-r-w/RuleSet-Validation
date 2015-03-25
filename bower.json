@@ -1,0 +1,17 @@
+{
+  "name": "rule-set-validation",
+  "version": "0.0.1",
+  "main": [
+    "rule-set-validation.js"
+  ],
+  "dependencies": {
+    "angular": "~1.2.27"
+  },
+  "ignore": [
+    "test",
+    ".gitignore",
+    "README.md",
+    "karma.conf.js",
+    "package.json"
+  ]
+}
