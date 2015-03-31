@@ -194,5 +194,4 @@ For two reasons:
  }
  // ...
  ```
- Check the src for more rules.
- 
+ Alternatively, you can use `rsStore.rsRules` to access the default rules provided. Check the src for more rules.

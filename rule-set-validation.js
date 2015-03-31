@@ -109,7 +109,7 @@ angular.module('ruleSetValidation', [])
         groups: {}
       };
     })
-    .factory('rsStore', function(){
+    .factory('rsStore', ['rsRules', function(rsRules){
       return {
         addRules: function(ruleSet){
           angular.extend(this.rules, ruleSet);
@@ -123,9 +123,10 @@ angular.module('ruleSetValidation', [])
         getFormRules: function(formName){
           return this.rules[formName];
         },
-        rules: {}
+        rules: {},
+        rsRules: rsRules
       };
-    })
+    }])
     .factory('rsRules', function(){
       return {
         required: function(value){
