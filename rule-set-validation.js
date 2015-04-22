@@ -59,20 +59,21 @@ angular.module('ruleSetValidation', [])
 
           // Run through asynchronous rules from the rule set
           var asyncRules = rsStore.getAsyncRules(model, form);
-          var callBack = function(valid){
-            ctrl.$setValidity(model, valid);
-            if(!isValid){
-              ctrl.$error.message = message;
+          for(var key in asyncRules){
+            var deferred = $q.defer();
+            var bindObj = {message: rules[key], ctrl: ctrl};
+            rules[key](value, deferred).then(asyncCallback.bind(bindObj), asyncCallback.bind(bindObj));
+          }
+          function asyncCallback(valid, message){
+            message = message || this.message;
+            this.ctrl.$setValidity(model, valid);
+            if(!valid){
+              this.ctrl.$error.message = message;
             }
             else {
-              delete ctrl.$error.message;
+              delete this.ctrl.$error.message;
             }
-          };
-          for(message in asyncRules){
-            var deferred = $q.defer();
-            rules[message](value, deferred).then(callback, callBack);
           }
-
         }
       };
     }])
