@@ -23,7 +23,7 @@ angular.module('ruleSetValidation', [])
           var model = ctrl[0].$name,
               modelCtrl = ctrl[0],
               form = ctrl[1].$name,
-              groups = attrs.ruleSetValidateGroups.split(',');
+              groups = attrs.ruleSetValidateGroup.split(',');
           element.bind('blur', function() {
             ctrl.$dirty = true;
             for(var i = 0; i < groups.length; i++){
@@ -34,6 +34,7 @@ angular.module('ruleSetValidation', [])
           });
         },
         template: function(element, attrs){
+          // dummy input to create an associated ngModel controller
           return '<input data-ng-model="' + attrs.ruleSetValidateGroup + '" name="' +attrs.ruleSetValidateGroup + '" style="display: none;"/>'
         }
       };

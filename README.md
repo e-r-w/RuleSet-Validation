@@ -71,7 +71,7 @@ For two reasons:
     }
   }
   ```
-  where `myForm` is the value of the `data-rule-set-validate` attribute. This should be the name of your form, but I'm not going to stop you.
+  where `myForm` is the name of the form and `myEmail` is the name/ngModel value of the of the input you are validating.
   
   If you fail to adhere to these object standards, you will most likely see run-time errors. I'm not going to baby-proof a monkey patch, deal with it.
   
