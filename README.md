@@ -159,7 +159,7 @@ For two reasons:
   
 ### Form validation
   
-  If you need to validate the whole form using the rule set in js, simply call `rsFormValidator.validate(formCtrl)`, where `formCtrl` is the form controller (i.e `scope.myForm`). RuleSet Validation will simply loop through all the rules you've associated with that form and call the validation.
+  If you need to validate the whole form using the rule set in js, simply call `rsFormValidator.validate(formCtrl)`, where `formCtrl` is the form controller (i.e `scope.myForm`). RuleSet Validation will simply loop through all the rules you've associated with that form and call the validation, allowing you to check `myForm.$valid` for form validity*.
   
 ## Caveats
 
@@ -180,3 +180,5 @@ For two reasons:
  // ...
  ```
  Alternatively, you can use `rsStore.rsRules` to access the default rules provided. Check the src for more rules.
+ 
+ - *`rsFormValidator.validate` will begin asynchronous validation but will not notify you when it has been completed. If you need those hooks, build them into your rule sets, at least for now.
