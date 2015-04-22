@@ -43,8 +43,7 @@ For two reasons:
   
 ## But how do I use RuleSet Validation?
   
-  Why you simply have to register a rule set and use the `data-rule-set-validate` directive on your form inputs! RuleSet Validation will use the `name` attribute
-  on the form input tag to find validation rules you've registered as well as setting the native form validation state.
+  Why you simply have to register a rule set and use the `data-rule-set-validate` directive on your form inputs! RuleSet Validation will use the name attribute to identify related rule sets (so make sure you name things consistently!) and expects the form input to be wrapped in a form with a name (which again, should match your rule sets), as well as using ngModel to identify and set the state of the input (dirty/pristine etc). Without these three attributes, Rule Set validation will not work
   
   Oh and don't forget to include the module in your app:
   
@@ -56,21 +55,7 @@ For two reasons:
   
   Rule sets can be configured by injecting the `rsStore` object in your app.run/controller/service and using `rsStore.addRule(ruleSet)` to add the rule set to the store.
   
-  Rule sets must be objects that follow either of these patterns:
-  
-  ```javascript
-  {
-    myEmail: {
-      "you need to enter an email address": function(value) {
-        return value !== '';
-      },
-      "your email is blacklisted": function(value){
-        return ['bademail@baddomain.com'].indexOf(value);
-      }
-    }
-  }
-  ```
-  or
+  Rule sets must be objects that follow this pattern:
   
   ```javascript
   {
@@ -118,13 +103,13 @@ For two reasons:
   <input 
     name="myPassword"
     data-ng-model="myPassword"
-    data-rule-set-validate="myForm"
+    data-rule-set-validate
     data-rule-set-validate-group="myPasswordGroup"
     />
   <input 
     name="myConfirmPassword"
     data-ng-model="myConfirmPassword"
-    data-rule-set-validate="myForm"
+    data-rule-set-validate
     data-rule-set-validate-group="myPasswordGroup"
     />
   <div data-ng-show="myForm.myPasswordGroup.$error.message">
@@ -138,7 +123,7 @@ For two reasons:
   <input 
     name="myField"
     data-ng-model="myField"
-    data-rule-set-validate="myForm"
+    data-rule-set-validate
     data-rule-set-validate-group="myGroup,myOtherGroup"
     />
   
@@ -174,7 +159,7 @@ For two reasons:
   
 ### Form validation
   
-  If you need to validate the whole form using the rule set in js, simply call `rsFormValidator.validate(formCtrl, formCtrlName)`, where `formCtrl` is the form controller (i.e `scope.myForm`) and `formCtrlName` is the name you've given to the form's rule set (i.e `'myForm'`). RuleSet Validation will simply loop through all the rules you've associated with that form and call the validation.
+  If you need to validate the whole form using the rule set in js, simply call `rsFormValidator.validate(formCtrl)`, where `formCtrl` is the form controller (i.e `scope.myForm`). RuleSet Validation will simply loop through all the rules you've associated with that form and call the validation.
   
 ## Caveats
 

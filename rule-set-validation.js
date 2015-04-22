@@ -2,13 +2,14 @@ angular.module('ruleSetValidation', [])
     .directive('ruleSetValidate', ['rsValidator', function(rsValidator) {
       return {
         restrict: 'A',
-        require: 'ngModel',
+        require: ['ngModel', '^form'],
         link: function(scope, element, attrs, ctrl) {
-          var model = attrs.name;
-          var form = attrs.ruleSetValidate;
+          var model = ctrl[0].$name,
+              modelCtrl = ctrl[0],
+              form = ctrl[1].$name;
           element.bind('blur', function() {
             ctrl.$dirty = true;
-            rsValidator.validate(ctrl, model, this.value, form);
+            rsValidator.validate(modelCtrl, model, this.value, form);
             scope.$digest();
           });
         }
@@ -17,16 +18,17 @@ angular.module('ruleSetValidation', [])
     .directive('ruleSetValidateGroup', ['rsGroupValidator', function(rsGroupValidator) {
       return {
         restrict: 'A',
-        require: 'ngModel',
+        require: ['ngModel', '^form'],
         link: function(scope, element, attrs, ctrl) {
-          var model = attrs.name;
-          var form = attrs.ruleSetValidate;
-          var groups = attrs.ruleSetValidateGroups.split(',');
+          var model = ctrl[0].$name,
+              modelCtrl = ctrl[0],
+              form = ctrl[1].$name,
+              groups = attrs.ruleSetValidateGroups.split(',');
           element.bind('blur', function() {
             ctrl.$dirty = true;
             for(var i = 0; i < groups.length; i++){
               var group = groups[i];
-              rsGroupValidator.validate(ctrl, model, group, this.value, form);
+              rsGroupValidator.validate(modelCtrl, model, group, this.value, form);
             }
             scope.$digest();
           });
@@ -83,7 +85,8 @@ angular.module('ruleSetValidation', [])
     }])
     .factory('rsFormValidator', ['rsValidator', 'rsStore', 'rsGroupStore', function(rsValidator, rsStore, rsGroupStore){
       return {
-        validate: function(formCtrl, formCtrlName){
+        validate: function(formCtrl){
+          var formCtrlName = formCtrl.$name;
           var props = rsStore.getFormRules(formCtrlName);
           for(var prop in props){
             var value = formCtrl[prop] ? formCtrl[prop].$viewValue : rsGroupStore.groups[prop];
