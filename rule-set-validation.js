@@ -8,7 +8,7 @@ angular.module('ruleSetValidation', [])
               modelCtrl = ctrl[0],
               form = ctrl[1].$name;
           element.bind('blur', function() {
-            ctrl.$dirty = true;
+            modelCtrl.$dirty = true;
             rsValidator.validate(modelCtrl, model, this.value, form);
             scope.$digest();
           });
@@ -25,7 +25,7 @@ angular.module('ruleSetValidation', [])
               form = ctrl[1].$name,
               groups = attrs.ruleSetValidateGroup.split(',');
           element.bind('blur', function() {
-            ctrl.$dirty = true;
+            modelCtrl.$dirty = true;
             for(var i = 0; i < groups.length; i++){
               var group = groups[i];
               rsGroupValidator.validate(modelCtrl, model, group, this.value, form);
