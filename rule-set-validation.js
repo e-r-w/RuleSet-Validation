@@ -50,6 +50,16 @@ angular.module('ruleSetValidation', [])
           form = ctrl[1],
           groups = attrs.ruleSetValidateGroup.split(','),
           event = element[0].nodeName === 'INPUT' && element[0].type !== 'radio' ? 'blur' : 'change';
+        //create the ngModelController by copying an existing one
+        angular.forEach(groups, function(group){
+          if(!form[group]){
+            var ctrl = {};
+            angular.copy(modelCtrl, ctrl);
+            ctrl.$name = group;
+            ctrl.$setPristine();
+            form.$addControl(ctrl);
+          }
+        });
         element.bind(event, function() {
           modelCtrl.$dirty = true;
           for(var i = 0; i < groups.length; i++){
@@ -58,10 +68,6 @@ angular.module('ruleSetValidation', [])
           }
           scope.$digest();
         });
-      },
-      template: function(element, attrs){
-        // dummy input to create an associated ngModel controller
-        return '<input data-ng-model="' + attrs.ruleSetValidateGroup + '" name="' +attrs.ruleSetValidateGroup + '" style="display: none;"/>'
       }
     };
   }])
