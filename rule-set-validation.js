@@ -7,11 +7,35 @@ angular.module('ruleSetValidation', [])
         var model = ctrl[0].$name,
           modelCtrl = ctrl[0],
           form = ctrl[1],
-          event = element[0].nodeName === 'INPUT' ? 'blur' : 'change';
+          event = element[0].nodeName === 'INPUT' && element[0].type !== 'radio' ? 'blur' : 'change';
+        //remove default angular email validation and set the correct starting validation state
+          modelCtrl.$parsers = [];
         element.bind(event, function() {
+          modelCtrl.$parsers = [];
           modelCtrl.$dirty = true;
           rsValidator.validate(modelCtrl, model, this.value, form);
           scope.$digest();
+        });
+      }
+    };
+  }])
+  .directive('ruleSetRevalidate', ['$timeout', 'rsValidator', function($timeout, rsValidator) {
+    return {
+      restrict: 'A',
+      require: ['ngModel', '^form'],
+      link: function(scope, element, attrs, ctrl) {
+        var form = ctrl[1];
+        var fields = attrs.ruleSetRevalidate.split(',');
+        var event = element[0].nodeName === 'INPUT' && element[0].type !== 'radio' ? 'blur' : 'change';
+        element.bind(event, function(){
+          angular.forEach(fields, function(field){
+            form[field].$parsers = [];
+            form[field].$dirty = true;
+            $timeout(function(){
+              rsValidator.validate(form[field], field, form[field].$viewValue, form);
+              scope.$apply();
+            }, 10);
+          });
         });
       }
     };
@@ -25,7 +49,7 @@ angular.module('ruleSetValidation', [])
           modelCtrl = ctrl[0],
           form = ctrl[1],
           groups = attrs.ruleSetValidateGroup.split(','),
-          event = element[0].nodeName === 'INPUT' ? 'blur' : 'change';
+          event = element[0].nodeName === 'INPUT' && element[0].type !== 'radio' ? 'blur' : 'change';
         element.bind(event, function() {
           modelCtrl.$dirty = true;
           for(var i = 0; i < groups.length; i++){
@@ -55,7 +79,10 @@ angular.module('ruleSetValidation', [])
             break;
           }
           else {
-            delete ctrl.$error.message;
+            ctrl.$error = {};
+            if(form.$error){
+              delete form.$error[model];
+            }
           }
         }
 
