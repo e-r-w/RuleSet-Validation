@@ -162,7 +162,7 @@ For two reasons:
   If you need to validate the whole form using the rule set in js, simply call `rsFormValidator.validate(formCtrl)`, where `formCtrl` is the form controller (i.e `scope.myForm`). RuleSet Validation will simply loop through all the rules you've associated with that form and call the validation, allowing you to check `myForm.$valid` for form validity*.
   
 ### Associated validation
-  RuleSet validation provides a facility to revalidate other fields as well as the current one. For example, if you need to revalidate the email field when a checkbox is checked, add `data-rule-set-revalidate="myEmailField"` to the checkbox, and the email field will be revalidated when the checkbox is toggled. the revalidate directive can accept a comma seperated list of field to revalidate upon change.
+  RuleSet validation provides a facility to revalidate other fields as well as the current one. For example, if you need to revalidate the email field when a checkbox is checked, add `data-rule-set-revalidate="myEmailField"` to the checkbox, and the email field will be revalidated when the checkbox is toggled. the revalidate directive can accept a comma seperated list of fields to revalidate upon change.
   
 ## Caveats
 
