@@ -7,9 +7,9 @@ angular.module('ruleSetValidation', [])
         var model = ctrl[0].$name,
           modelCtrl = ctrl[0],
           form = ctrl[1],
-          event = element[0].nodeName === 'INPUT' && element[0].type !== 'radio' ? 'blur' : 'change';
+          event = element[0].nodeName === 'INPUT' && ['radio', 'checkbox'].indexOf(element[0].type) >= 0 ? 'change' : 'blur';
         //remove default angular email validation and set the correct starting validation state
-          modelCtrl.$parsers = [];
+        modelCtrl.$parsers = [];
         element.bind(event, function() {
           modelCtrl.$parsers = [];
           modelCtrl.$dirty = true;
@@ -26,7 +26,7 @@ angular.module('ruleSetValidation', [])
       link: function(scope, element, attrs, ctrl) {
         var form = ctrl[1];
         var fields = attrs.ruleSetRevalidate.split(',');
-        var event = element[0].nodeName === 'INPUT' && element[0].type !== 'radio' ? 'blur' : 'change';
+        var event = element[0].nodeName === 'INPUT' && ['radio', 'checkbox'].indexOf(element[0].type) >= 0 ? 'change' : 'blur';
         element.bind(event, function(){
           angular.forEach(fields, function(field){
             form[field].$parsers = [];
@@ -49,7 +49,7 @@ angular.module('ruleSetValidation', [])
           modelCtrl = ctrl[0],
           form = ctrl[1],
           groups = attrs.ruleSetValidateGroup.split(','),
-          event = element[0].nodeName === 'INPUT' && element[0].type !== 'radio' ? 'blur' : 'change';
+          event = element[0].nodeName === 'INPUT' && ['radio', 'checkbox'].indexOf(element[0].type) >= 0 ? 'change' : 'blur';
         //create the ngModelController by copying an existing one
         angular.forEach(groups, function(group){
           if(!form[group]){
@@ -58,6 +58,7 @@ angular.module('ruleSetValidation', [])
             ctrl.$name = group;
             ctrl.$setPristine();
             form.$addControl(ctrl);
+            ctrl.isGroup = true;
           }
         });
         element.bind(event, function() {
@@ -80,6 +81,10 @@ angular.module('ruleSetValidation', [])
         for(var message in rules){
           var isValid = rules[message](value, form);
           ctrl.$setValidity(model, isValid);
+          if(isValid && !ctrl.$valid){
+            ctrl.$valid = isValid;
+            ctrl.$invalid = !isValid;
+          }
           if(!isValid){
             ctrl.$error.message = message;
             break;
@@ -129,12 +134,13 @@ angular.module('ruleSetValidation', [])
         var formCtrlName = formCtrl.$name;
         var props = rsStore.getFormRules(formCtrlName);
         for(var prop in props){
-          var group = rsGroupStore.groups[prop];
-          if(group){
-            rsGroupValidator.formValidate(formCtrl[prop], prop, group, formCtrl);
+          var ctrlName = prop.replace(':async', '');
+          if(formCtrl[ctrlName].isGroup){
+            var group = rsGroupStore.groups[prop];
+            rsGroupValidator.formValidate(formCtrl[ctrlName], ctrlName, group, formCtrl);
           }
-          else if( formCtrl[prop]){
-            rsValidator.validate(formCtrl[prop], prop, formCtrl[prop].$viewValue, formCtrl);
+          else if( formCtrl[ctrlName]){
+            rsValidator.validate(formCtrl[ctrlName], ctrlName, formCtrl[ctrlName].$viewValue, formCtrl);
           }
         }
       }
