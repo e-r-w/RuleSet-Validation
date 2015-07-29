@@ -226,5 +226,5 @@ angular.module('ruleSetValidation', [])
     };
   });
   if(module && module.exports){
-	module.exports = 'ruleSetValidation'  
+	module.exports = 'ruleSetValidation';
   }
