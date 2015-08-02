@@ -197,17 +197,17 @@ angular.module('ruleSetValidation', [])
       },
       setLength: function(length) {
         return function(value){
-          return value.length === length;
+          return value && value.length === length;
         }
       },
       minLength: function(length) {
         return function(value){
-          return value.length >= length;
+          return value && value.length >= length;
         }
       },
       maxLength: function(length) {
         return function(value){
-          return value.length <= length;
+          return value && value.length <= length;
         }
       },
       regex: function(pattern) {
