@@ -8,10 +8,7 @@ angular.module('ruleSetValidation', [])
           modelCtrl = ctrl[0],
           form = ctrl[1],
           event = element[0].nodeName === 'INPUT' && ['radio', 'checkbox'].indexOf(element[0].type) >= 0 ? 'change' : 'blur';
-        //remove default angular email validation and set the correct starting validation state
-        modelCtrl.$parsers = [];
         element.bind(event, function() {
-          modelCtrl.$parsers = [];
           modelCtrl.$dirty = true;
           rsValidator.validate(modelCtrl, model, this.value, form);
           scope.$digest();
@@ -29,7 +26,6 @@ angular.module('ruleSetValidation', [])
         var event = element[0].nodeName === 'INPUT' && ['radio', 'checkbox'].indexOf(element[0].type) >= 0 ? 'change' : 'blur';
         element.bind(event, function(){
           angular.forEach(fields, function(field){
-            form[field].$parsers = [];
             form[field].$dirty = true;
             $timeout(function(){
               rsValidator.validate(form[field], field, form[field].$viewValue, form);
