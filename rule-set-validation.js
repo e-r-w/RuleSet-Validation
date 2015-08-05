@@ -221,7 +221,7 @@ angular.module('ruleSetValidation', [])
         }
       },
       email: function(value){
-        (/^([a-zA-Z0-9_\.\-\+!\$%&'*\/=?\^`{|}~#]+)@([\da-zA-Z\.\-]+)\.([a-zA-Z\.]{2,6})$/).test(value);
+        return (/^([a-zA-Z0-9_\.\-\+!\$%&'*\/=?\^`{|}~#]+)@([\da-zA-Z\.\-]+)\.([a-zA-Z\.]{2,6})$/).test(value);
       }
     };
   });
